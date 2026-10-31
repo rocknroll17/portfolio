@@ -1,0 +1,337 @@
+/*
+ * Restyles the Notion-rendered page to match cv.rocknroll17.com:
+ * same color tokens, Lato + Noto Sans KR, 820px column, accent-underlined
+ * section headings, round top-right controls. Loaded after notion.css.
+ */
+
+/* ---------- Tokens (same values as the CV site) ---------- */
+
+:root,
+.light-mode {
+  --cv-bg: #ffffff;
+  --cv-text: #1a1a1a;
+  --cv-muted: #6b6b6b;
+  --cv-link: #1772d0;
+  --cv-link-hover: #f09228;
+  --cv-rule: #e4e4e4;
+  --cv-thumb-bg: #f4f4f4;
+  --cv-accent: #1772d0;
+}
+
+.dark-mode {
+  --cv-bg: #131313;
+  --cv-text: #e6e6e6;
+  --cv-muted: #9b9b9b;
+  --cv-link: #62aaf5;
+  --cv-link-hover: #f5b25e;
+  --cv-rule: #2b2b2b;
+  --cv-thumb-bg: #1e1e1e;
+  --cv-accent: #62aaf5;
+}
+
+/* map onto react-notion-x variables */
+:root,
+.light-mode,
+.dark-mode {
+  --notion-font: 'Lato', 'Noto Sans KR', 'Helvetica Neue', Helvetica, Arial,
+    sans-serif;
+  --notion-max-width: 820px;
+  --notion-header-height: 0px;
+  --fg-color: var(--cv-text);
+  --fg-color-0: var(--cv-text);
+  --fg-color-1: var(--cv-text);
+  --fg-color-2: var(--cv-text);
+  --fg-color-3: var(--cv-muted);
+  --fg-color-4: var(--cv-muted);
+  --fg-color-5: var(--cv-muted);
+  --fg-color-6: var(--cv-text);
+  --fg-color-icon: var(--cv-muted);
+  --bg-color: var(--cv-bg);
+  --bg-color-0: var(--cv-thumb-bg);
+  --bg-color-1: var(--cv-thumb-bg);
+  --bg-color-2: var(--cv-rule);
+}
+
+html,
+body,
+.notion,
+.notion-app {
+  background: var(--cv-bg);
+  color: var(--cv-text);
+}
+
+.notion {
+  font-family: var(--notion-font);
+  /* 16px, not the CV's 15px: Korean glyphs read smaller than Lato */
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.dark-mode .notion {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Layout ---------- */
+
+.notion-page {
+  width: 100%;
+  max-width: calc(var(--notion-max-width) + 48px) !important;
+  padding: 60px 24px 80px;
+}
+
+/* keep body blocks at the page size (react-notion-x shrinks some) */
+.notion-text,
+.notion-list,
+.notion-quote,
+.notion-callout-text {
+  font-size: 17px;
+}
+
+/* Notion's hover anchor icons next to headings */
+.notion-hash-link {
+  display: none !important;
+}
+
+.notion-page-no-cover.notion-page-no-icon {
+  padding-top: 60px;
+}
+
+/* ---------- Top-right controls (same as CV) ---------- */
+
+.top-controls {
+  position: absolute;
+  top: 22px;
+  right: 24px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pdf-btn {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 12px;
+  border: 1px solid var(--cv-rule);
+  border-radius: 17px;
+  background: transparent;
+  color: var(--cv-muted);
+  font-family: var(--notion-font);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.pdf-btn svg {
+  width: 15px;
+  height: 15px;
+}
+.pdf-btn:hover {
+  color: var(--cv-accent);
+  border-color: var(--cv-accent);
+}
+/* the CV link is an <a>; keep it out of the .notion a link colors */
+.top-controls a.pdf-btn {
+  color: var(--cv-muted);
+  background: transparent;
+  border: 1px solid var(--cv-rule);
+  text-decoration: none;
+}
+.top-controls a.pdf-btn:hover {
+  color: var(--cv-accent);
+  border-color: var(--cv-accent);
+}
+
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--cv-rule);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cv-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+.theme-toggle:hover {
+  color: var(--cv-link-hover);
+  border-color: var(--cv-link-hover);
+}
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+.theme-toggle-hidden {
+  visibility: hidden;
+}
+
+/* ---------- Headings ---------- */
+
+/* page title = CV name */
+.notion-title {
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+  text-align: left;
+  margin: 0 0 16px;
+}
+
+/* Notion H1 = CV section heading with accent underline */
+.notion-h1 {
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-top: 52px;
+  margin-bottom: 4px;
+}
+.notion-h1::after {
+  content: '';
+  display: block;
+  width: 58px;
+  height: 3px;
+  margin-top: 10px;
+  border-radius: 2px;
+  background: var(--cv-accent);
+}
+
+/* the underline replaces the divider Notion places right after a section */
+.notion-h1 + .notion-hr {
+  display: none;
+}
+
+/* same gap under every section underline, whatever block comes next
+   (a heading's own top margin or a column layout made it uneven) */
+.notion-h1 + .notion-hr + *,
+.notion-h1 + * {
+  margin-top: 20px !important;
+}
+.notion-h1 + .notion-hr + .notion-row .notion-column > :first-child,
+.notion-h1 + .notion-row .notion-column > :first-child {
+  margin-top: 0 !important;
+}
+
+/* Notion H2 = CV entry title (paper / project name) */
+.notion-h2 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.45;
+  margin-top: 36px;
+}
+
+.notion-h3 {
+  font-size: 19px;
+  font-weight: 700;
+  margin-top: 22px;
+}
+
+.notion-h1 .notion-h-title,
+.notion-h2 .notion-h-title,
+.notion-h3 .notion-h-title {
+  font-weight: 700;
+}
+
+.notion-hr {
+  border-top: 1px solid var(--cv-rule);
+  margin: 24px 0;
+}
+
+/* ---------- Text ---------- */
+
+.notion-text {
+  padding: 2px 0;
+}
+
+.notion-link,
+.notion a {
+  color: var(--cv-link);
+  border-bottom: none;
+  opacity: 1;
+  text-decoration: none;
+}
+.notion-link:hover,
+.notion a:hover {
+  color: var(--cv-link-hover);
+}
+
+.notion-quote {
+  border-left: 3px solid var(--cv-accent);
+  font-style: normal;
+  color: var(--cv-muted);
+  padding: 0 0 0 16px;
+}
+
+.notion-inline-code {
+  color: var(--cv-muted) !important;
+  background: var(--cv-thumb-bg) !important;
+  font-size: 15px;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.notion-callout {
+  background: var(--cv-thumb-bg) !important;
+  border: 1px solid var(--cv-rule);
+}
+
+.notion-asset-wrapper img,
+.notion-image-inset {
+  border-radius: 4px;
+}
+
+.notion-list li {
+  padding: 2px 0;
+}
+
+/* ---------- Mobile (same breakpoint as CV) ---------- */
+
+@media (max-width: 640px) {
+  .notion-page {
+    padding: 72px 16px 60px;
+  }
+  .notion-title {
+    font-size: 30px;
+  }
+  .top-controls {
+    top: 16px;
+    right: 16px;
+  }
+}
+
+/* ---------- Print / Save as PDF (same approach as the CV) ---------- */
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .top-controls {
+    display: none !important;
+  }
+  /* @page margin 0 leaves no room for the browser's date/title header,
+     so re-add the margin per printed page via cloned padding. */
+  .notion-page {
+    padding: 14mm 16mm !important;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .notion-h1,
+  .notion-h2,
+  .notion-h3 {
+    break-after: avoid;
+  }
+  .notion-asset-wrapper,
+  .notion-quote,
+  .notion-callout {
+    break-inside: avoid;
+  }
+}
+
+@page {
+  margin: 0;
+}
